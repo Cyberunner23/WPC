@@ -1,6 +1,8 @@
 ﻿using System;
 
 using KeePass.Plugins;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 
 namespace WPC
 {
