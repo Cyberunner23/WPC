@@ -31,7 +31,7 @@ namespace WPC
         {
             for (int cur = 0; cur < 7; ++cur) {
                 Thread.Sleep (1000);
-                ReadOnlyCollection<IWebElement> elements = driver.FindElements(query);
+                ReadOnlyCollection<IWebElement> elements = driver.FindElements(By.CssSelector(query));
                 if (elements.Count > 0) {
                     IWebElement result = elements[0];
                     return result;
