@@ -41,9 +41,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Websites\Facebook.cs" />
+    <Compile Include="Websites\Github.cs" />
+    <Compile Include="Websites\Gmail.cs" />
+    <Compile Include="Websites\Twitter.cs" />
     <Compile Include="WPCExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebInteraction.cs" />
+    <Compile Include="IWebInteractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
