@@ -4,11 +4,10 @@ using System.Windows.Forms;
 
 using KeePass.Plugins;
 using KeePassLib;
-using KeePassLib.Security;
-
-
 using KeePassLib.Cryptography.PasswordGenerator;
+using KeePassLib.Security;
 using KeePassLib.Utility;
+using WPC.Websites;
 
 namespace WPC
 {
@@ -29,12 +28,27 @@ namespace WPC
                 Text = "Auto Password Changer"
             };
 
-            _autoPasswordChangerMenuItem.Click += (sender, args) =>
+            _autoPasswordChangerMenuItem.DropDown.Items.Add("Facebook", null, (sender, args) =>
             {
-                ChangePassword(null);
-            };
-
+                Facebook facebookInteraction = new Facebook();
+                ChangePassword(facebookInteraction);
+            });
+            
+            _autoPasswordChangerMenuItem.DropDown.Items.Add("Github", null, (sender, args) =>
+            {
+                Github facebookInteraction = new Github();
+                ChangePassword(facebookInteraction);
+            });
+            
+            _autoPasswordChangerMenuItem.DropDown.Items.Add("Twitter", null, (sender, args) =>
+            {
+                Twitter facebookInteraction = new Twitter();
+                ChangePassword(facebookInteraction);
+            });
+            
             _host.MainWindow.EntryContextMenu.Items.Add(_autoPasswordChangerMenuItem);
+            
+            
             
             return true;
         }
@@ -47,19 +61,28 @@ namespace WPC
 
         private void ChangePassword(IWebInteractor interactor)
         {
-            
-            
-            
             PwEntry selectedEntry = _host.MainWindow.GetSelectedEntry(false);
             ProtectedString username = selectedEntry.Strings.GetSafe(PwDefs.UserNameField);
             ProtectedString password = selectedEntry.Strings.GetSafe(PwDefs.PasswordField);
+            ProtectedString newPassword = new ProtectedString(true, DeriveNewPassword(password.ReadUtf8()));
             
+            interactor.login(username.ReadString(), password.ReadString());
             
+            selectedEntry.Strings.Set("wpc_old_password", password);
+            selectedEntry.Strings.Set(PwDefs.PasswordField, newPassword);
+            selectedEntry.CustomData.Set("wpc_passwd_update_status", "incomplete");
             
-            selectedEntry.Strings.Set("wpc_old_password", new ProtectedString().Insert(0, "asdfgh"));
-	}
+            PwDatabase currentDatabase = _host.Database;
+            _host.MainWindow.SaveDatabase(currentDatabase, this);
+            
+            interactor.changePassword(password.ReadString(), newPassword.ReadString());
 
-        public byte[] deriveNewPassword (byte[] currentPassword) {
+            selectedEntry.CustomData.Set("wpc_passwd_update_status", "complete");
+            
+            _host.MainWindow.SaveDatabase(currentDatabase, this);
+        }
+
+        private byte[] DeriveNewPassword (byte[] currentPassword) {
             ProtectedString psCur = new ProtectedString(true, currentPassword);
             PwProfile pwp = PwProfile.DeriveFromPassword(psCur);
 
@@ -74,7 +97,7 @@ namespace WPC
 
             if (currentPassword.SequenceEqual(pbNew)) {
                 //Try again, this shouldn't happen too often
-                return deriveNewPassword(currentPassword);
+                return DeriveNewPassword(currentPassword);
             }
 
             //Zero fill the currentPassword buffer
