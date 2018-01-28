@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
@@ -28,11 +29,15 @@ namespace WPC
         
         protected IWebElement waitForElement(IWebDriver driver, string query)
         {
-            Thread.Sleep (1000);
-            new WebDriverWait (driver, TimeSpan.FromSeconds (1000))
-                .Until (d => d.FindElements (By.CssSelector (query)).Count != 0);
-            Thread.Sleep (1000);
-            return driver.FindElement (By.CssSelector (query));
+            for (int cur = 0; cur < 7; ++cur) {
+                Thread.Sleep (1000);
+                ReadOnlyCollection<IWebElement> elements = driver.FindElements(By.CssSelector(query));
+                if (elements.Count > 0) {
+                    IWebElement result = elements[0];
+                    return result;
+                }
+            }
+            throw new Exception("We could not change your password, an element is missing; " + query);
         }
 
         public abstract void login(string email, string password);
