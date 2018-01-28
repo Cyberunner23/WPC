@@ -7,6 +7,10 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using System.Linq;
+using KeePassLib.Cryptography.PasswordGenerator;
+using KeePassLib.Security;
+using KeePassLib.Utility;
 
 namespace WPC
 {
@@ -166,13 +170,41 @@ namespace WPC
 				changePasswordGithub(driver, currentPassword, newPassword);
 			}*/
 		}
+        public byte[] deriveNewPassword (byte[] currentPassword) {
+            ProtectedString psCur = new ProtectedString(true, currentPassword);
+            PwProfile pwp = PwProfile.DeriveFromPassword(psCur);
+
+            ProtectedString psNew;
+            PwGenerator.Generate(
+                out psNew,
+                pwp,
+                null,
+                _host.PwGeneratorPool
+            );
+            byte[] pbNew = psNew.ReadUtf8();
+
+            if (currentPassword.SequenceEqual(pbNew)) {
+                //Try again, this shouldn't happen too often
+                return deriveNewPassword(currentPassword);
+            }
+
+            //Zero fill the currentPassword buffer
+            MemUtil.ZeroByteArray(currentPassword);
+
+            //You should zero fill the array after you are done
+            //using it. Because the array might still be in memory for a while.
+            //We don't want memory sniffers getting it so easily
+            //KeePassLib.Utility.MemUtil.ZeroByteArray(pbNew);
+            return pbNew;
+        }
         public override bool Initialize(IPluginHost host)
         {
-            MessageBox.Show("EYYY");
             _host = host;
-			MessageBox.Show(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
+            //Usage
+            byte[] current = System.Text.Encoding.UTF8.GetBytes("kjsdhfr232&@#");
+            byte[] next = deriveNewPassword(current);
+            MessageBox.Show(System.Text.Encoding.UTF8.GetString(next));
 
-			//driver.Navigate().GoToUrl("https://google.com/");
             return true;
         }
     }
