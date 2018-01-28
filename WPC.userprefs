@@ -1,7 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="WPC/WPCExt.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WPC/WebInteraction.cs">
     <Files>
-      <File FileName="WPC/WPCExt.cs" Line="16" Column="26" />
+      <File FileName="WPC/WPCExt.cs" Line="18" Column="12" />
+      <File FileName="WPC/WebInteraction.cs" Line="7" Column="9" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
