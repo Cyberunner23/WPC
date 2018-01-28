@@ -1,8 +1,7 @@
 ﻿using System;
 
 using KeePass.Plugins;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
+using System.Windows.Forms;
 
 namespace WPC
 {
@@ -13,6 +12,7 @@ namespace WPC
 
         public override bool Initialize(IPluginHost host)
         {
+            MessageBox.Show("EYYY");
             _host = host;
             return true;
         }
