@@ -2,6 +2,9 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using System.IO;
+using System.Collections.Generic;
+using System.Reflection;
 
 using KeePass.Plugins;
 using KeePassLib;
@@ -9,6 +12,8 @@ using KeePassLib.Cryptography.PasswordGenerator;
 using KeePassLib.Security;
 using KeePassLib.Utility;
 using WPC.Websites;
+
+using YamlDotNet.Serialization;
 
 namespace WPC
 {
@@ -37,16 +42,33 @@ namespace WPC
             
             _autoPasswordChangerMenuItem.DropDown.Items.Add("Github", null, (sender, args) =>
             {
-                Github facebookInteraction = new Github();
-                ChangePassword(facebookInteraction);
+                Github githubInteraction = new Github();
+					ChangePassword(githubInteraction);
             });
             
             _autoPasswordChangerMenuItem.DropDown.Items.Add("Twitter", null, (sender, args) =>
             {
-                Twitter facebookInteraction = new Twitter();
-                ChangePassword(facebookInteraction);
+                Twitter twitterInteraction = new Twitter();
+					ChangePassword(twitterInteraction);
             });
             
+			try {
+				var deserializer = new DeserializerBuilder().Build();
+				string ymlPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/sites.yml";
+				if (File.Exists(ymlPath)) {
+					var sites = deserializer.Deserialize<List<Site>>(File.OpenText(ymlPath));
+					foreach (Site s in sites) {
+						_autoPasswordChangerMenuItem.DropDown.Items.Add(s.name, null, (sender, args) =>
+							{
+								CustomInteraction customInteraction = new CustomInteraction(s);
+								ChangePassword(customInteraction);
+							});
+					}
+				}
+			} catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+			}
+
             _host.MainWindow.EntryContextMenu.Items.Add(_autoPasswordChangerMenuItem);
             
             
