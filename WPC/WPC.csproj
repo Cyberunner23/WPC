@@ -39,6 +39,9 @@
     <Reference Include="WebDriver.Support">
       <HintPath>..\packages\Selenium.Support.3.8.0\lib\net45\WebDriver.Support.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet">
+      <HintPath>..\packages\YamlDotNet.4.3.0\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Websites\Facebook.cs" />
@@ -48,6 +51,7 @@
     <Compile Include="WPCExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IWebInteractor.cs" />
+    <Compile Include="Websites\CustomInteraction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
