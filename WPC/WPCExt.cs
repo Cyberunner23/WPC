@@ -54,13 +54,16 @@ namespace WPC
 			
             try {
                 var deserializer = new DeserializerBuilder().Build();
-                var sites = deserializer.Deserialize<List<Site>>(File.OpenText(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/sites.yml"));
-                foreach (Site s in sites) {
-                    _autoPasswordChangerMenuItem.DropDown.Items.Add(s.name, null, (sender, args) =>
-                    {
-                        CustomInteraction customInteraction = new CustomInteraction(s);
-                        ChangePassword(customInteraction);
-                    });
+                string ymlPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/sites.yml";
+                if (File.Exists(ymlPath)) {
+                    var sites = deserializer.Deserialize<List<Site>>(File.OpenText(ymlPath));
+                    foreach (Site s in sites) {
+                        _autoPasswordChangerMenuItem.DropDown.Items.Add(s.name, null, (sender, args) =>
+                        {
+                            CustomInteraction customInteraction = new CustomInteraction(s);
+                            ChangePassword(customInteraction);
+                        });
+                    }
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
