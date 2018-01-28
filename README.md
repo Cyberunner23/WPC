@@ -32,9 +32,26 @@ After building,
     1. `WebDriver.Support.dll`
     1. `YamlDotNet.dll`
 1. Copy + Paste the `sites.yml` to the folder `KeePass.exe` is in.
+1. Download https://chromedriver.storage.googleapis.com/2.35/chromedriver_win32.zip
+1. Extract to the folder `KeePass.exe` is in.
 1. Run
 
 Support for additional sites may be added by modifying the `sites.yml` file.
+
+Your directory should look like,
+
+```
+KeePass/
+    + chromedriver/
+        + chromedriver (Executable)
+    + Plugins/
+        + WPC.dll
+        + WebDriver.dll
+        + WebDriver.Support.dll
+        + YamlDotNet.dll
+    + sites.yml
+    + KeePass.exe
+```
 
 ### Usage (Others)
 
@@ -46,9 +63,25 @@ After building,
     1. `WebDriver.Support.dll`
     1. `YamlDotNet.dll`
 1. Copy + Paste the `sites.yml` to the folder `KeePass.exe` is in.
-1. Run
+1. Download http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
+1. Extract to the folder `KeePass.exe` is in.
+1. Run with `mono` (`mono ./KeePass.exe`)
 
 Support for additional sites may be added by modifying the `sites.yml` file.
+
+Your directory should look like,
+
+```
+KeePass/
+    + chromedriver/
+        + chromedriver (Executable)
+    + WPC.dll
+    + WebDriver.dll
+    + WebDriver.Support.dll
+    + YamlDotNet.dll
+    + sites.yml
+    + KeePass.exe
+```
 
 ### How it Works
 
