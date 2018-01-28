@@ -22,6 +22,34 @@ all of the above, with a few simple clicks.
 
 -----
 
+### Usage (Windows)
+
+After building,
+
+1. Copy + Paste the following to your KeePass `Plugins` folder,
+    1. `WPC.dll`
+    1. `WebDriver.dll`
+    1. `WebDriver.Support.dll`
+    1. `YamlDotNet.dll`
+1. Copy + Paste the `sites.yml` to the folder `KeePass.exe` is in.
+1. Run
+
+Support for additional sites may be added by modifying the `sites.yml` file.
+
+### Usage (Others)
+
+After building,
+
+1. Copy + Paste the following to the folder `KeePass.exe` is in,
+    1. `WPC.dll`
+    1. `WebDriver.dll`
+    1. `WebDriver.Support.dll`
+    1. `YamlDotNet.dll`
+1. Copy + Paste the `sites.yml` to the folder `KeePass.exe` is in.
+1. Run
+
+Support for additional sites may be added by modifying the `sites.yml` file.
+
 ### How it Works
 
 + WPC uses KeePass to manage your passwords, and generate new ones.
