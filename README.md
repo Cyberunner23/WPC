@@ -22,6 +22,67 @@ all of the above, with a few simple clicks.
 
 -----
 
+### Usage (Windows)
+
+After building,
+
+1. Copy + Paste the following to your KeePass `Plugins` folder,
+    1. `WPC.dll`
+    1. `WebDriver.dll`
+    1. `WebDriver.Support.dll`
+    1. `YamlDotNet.dll`
+1. Copy + Paste the `sites.yml` to the folder `KeePass.exe` is in.
+1. Download https://chromedriver.storage.googleapis.com/2.35/chromedriver_win32.zip
+1. Extract `chromedriver.exe` to `KeePass/chromedriver/chromedriver.exe` (Refer to directory structure below)
+1. Run
+
+Support for additional sites may be added by modifying the `sites.yml` file.
+
+Your directory should look like,
+
+```
+KeePass/
+    + chromedriver/
+        + chromedriver.exe (Executable)
+    + Plugins/
+        + WPC.dll
+        + WebDriver.dll
+        + WebDriver.Support.dll
+        + YamlDotNet.dll
+    + sites.yml
+    + KeePass.exe
+```
+
+### Usage (Others)
+
+After building,
+
+1. Copy + Paste the following to the folder `KeePass.exe` is in,
+    1. `WPC.dll`
+    1. `WebDriver.dll`
+    1. `WebDriver.Support.dll`
+    1. `YamlDotNet.dll`
+1. Copy + Paste the `sites.yml` to the folder `KeePass.exe` is in.
+1. Download http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
+1. Extract the `chromedriver` executable to `KeePass/chromedriver/chromedriver` (Refer to directory structure below)
+1. Run with `mono` (`mono ./KeePass.exe`)
+
+Support for additional sites may be added by modifying the `sites.yml` file.
+
+Your directory should look like,
+
+```
+KeePass/
+    + chromedriver/
+        + chromedriver (Executable)
+    + WPC.dll
+    + WebDriver.dll
+    + WebDriver.Support.dll
+    + YamlDotNet.dll
+    + sites.yml
+    + KeePass.exe
+```
+
 ### How it Works
 
 + WPC uses KeePass to manage your passwords, and generate new ones.
